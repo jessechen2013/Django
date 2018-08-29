@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<textarea>{{request.session.unique_id}}</textarea>
+<form action="/random_number/generate" method="post">
+	{% csrf_token %}
+	<input type="submit" value="Generate Random Number">
+</form>
+
+</body>
+</html>

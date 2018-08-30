@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Welcome to Amadon!</h1>
+<form action='/process' method='post'>
+  {% csrf_token %}
+  <label>Ninja Sword</label>
+  <select name='quantity'>
+     <option>1</option>
+     <option>2</option>
+     <option>3</option>
+  </select>
+  <input type='hidden' name='product_id' value='1015' />
+  <input type='submit' value='Buy!' />
+</form>
+
+
+</body>
+</html>

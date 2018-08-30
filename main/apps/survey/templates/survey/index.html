@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Welcome to Survey!</h1>
+	<form class="border border-secondary" action="survey/process" method="POST">
+		{% csrf_token %}
+		<div class="form-group">
+    	<label>Your Name:  </label>
+    	<input type="text" name="name" placeholder="firstname lastname">
+  	</div>
+
+  	<div class="form-group">
+    	<div class="col">
+    		<label>Dojo Location:  </label>
+      	<input type="text"  name="location" placeholder="Mountain View">
+    	</div>
+    	<div class="col">
+    		<label>Favorite Language:  </label>
+      	<input type="text"  name="language" placeholder="Programing Language">
+    	</div>
+  	</div>
+  	<div>
+  		<label>Comment:  </label>
+  		<input type="text" name="comment" placeholder="Leave a comment">
+  	</div>
+  	<div class="form-group">
+  	<input type="submit" class="btn btn-info" value="Submit"></div>
+	</form>
+</body>
+</html>

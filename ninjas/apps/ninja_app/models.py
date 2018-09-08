@@ -2,15 +2,15 @@
 from __future__ import unicode_literals
 from django.db import models
 
-class Dojo(models.Model):
+class Dojos(models.Model):
 	name = models.CharField(max_length = 255)
 	city = models.CharField(max_length = 255)
 	state = models.CharField(max_length = 2)
-	desc = models.TextField(default="Description")
 
-class Ninja(models.Model):
+class Ninjas(models.Model):
 	dojo = models.ForeignKey(Dojo, related_name = "ninjas")
 	first_name = models.CharField(max_length= 255)
 	last_name = models.CharField(max_length= 255)
+
 
 # Create your models here.

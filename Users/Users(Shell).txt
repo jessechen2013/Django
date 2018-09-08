@@ -1,0 +1,26 @@
+>>> Blog.objects.exclude(name ="jesse")
+<QuerySet [<Blog: Blog object>]>
+>>> Blog.objects.create(name ="war2", desc="war2")
+<Blog: Blog object>
+>>> Blog.objects.all()
+<QuerySet [<Blog: Blog object>, <Blog: Blog object>]>
+>>> Blog.objects.first.name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'function' object has no attribute 'name'
+>>> Blog.objects.first().name
+u'1'
+>>> Blog.objects.filter(name="1").name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'name'
+>>> Blog.objects.filter(name="1").name.first().name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'QuerySet' object has no attribute 'name'
+>>> Blog.objects.filter(name="1").first()
+<Blog: Blog object>
+>>> Blog.objects.filter(name="1").first().name
+u'1'
+>>> Blog.objects.exclude(name="1").first().name
+u'war2'

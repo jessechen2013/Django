@@ -1,0 +1,205 @@
+>>> Books.objects.all()
+<QuerySet [<Books: Books object>]>
+>>> Books.objects.first().authors
+<django.db.models.fields.related_descriptors.ManyRelatedManager object at 0x102483f50>
+>>> author = Authors.objects.create(first_name = "Jesse", last_name = "Chen", email = "jessechen2013@gamil.com")
+>>> book = Books.objects.create(name = "Jesse's story", desc = "A story of a legendary programmer")
+>>> author.books.add(book)
+>>> Books.objects.first().authors
+<django.db.models.fields.related_descriptors.ManyRelatedManager object at 0x1025abe50>
+>>> Books.objects.first(
+... 
+... 
+... 
+... )
+<Books: Books object>
+>>> book.authors
+<django.db.models.fields.related_descriptors.ManyRelatedManager object at 0x102483250>
+>>> Books.objects.create(name = "C sharp", desc ="")
+<Books: Books object>
+>>> Books.objects.create(name = "Java", desc= "")
+<Books: Books object>
+>>> Books.objects.create(name = "Python", desc="")
+<Books: Books object>
+>>> Books.objects.create(name = "Ruby", desc = "")
+<Books: Books object>
+>>> Authors.objects.create(first_name = "Mike", last_name = "Mike", email = "mike")
+<Authors: Authors object>
+>>> Authors.objects.create(first_name = "Speros", last_name = "Speros", email = "")
+<Authors: Authors object>
+>>> Authors.objects.create(first_name = "John", last_name = "John", email = "")
+<Authors: Authors object>
+>>> Authors.objects.create(first_name = "Jadee", last_name = "Jadee", email = "")
+<Authors: Authors object>
+>>> Books.objects.last().name = "C#"
+>>> Books.save()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+TypeError: unbound method save() must be called with Books instance as first argument (got nothing instead)
+>>> b = Books.objects.last()
+>>> b.name = "C#"
+>>> b.save()
+>>> b.name
+'C#'
+>>> Books.objects.first().id
+1
+>>> Books.objects.last().id
+6
+>>> Authors.objects.last().first_name = "Ketul"
+>>> Authors.objects.last().first_name
+u'Jadee'
+>>> a = Authors.objects.last()
+>>> a.first_name = "Ketul"
+>>> a.save()
+>>> b1 = Books.objects.get(id=1)
+>>> b2 = Books.objects.get(id=2)
+>>> b1.authors = Authors.objects.first()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 537, in __set__
+    manager.set(value)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 983, in set
+    objs = tuple(objs)
+TypeError: 'Authors' object is not iterable
+>>> a1 = Authors.objects.first()
+>>> b1.authors = a1
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 537, in __set__
+    manager.set(value)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 983, in set
+    objs = tuple(objs)
+TypeError: 'Authors' object is not iterable
+>>> b1.authors.add(a1)
+>>> b2.authors.add(a1)
+>>> a2 = Authors.objects.get(id = 2)
+>>> b3 = Books.objects.get(id = 3)
+>>> b1.authors.add(a2)
+>>> b2.authors.add(a2)
+>>> b3.authors.add(a2)
+>>> a3 = Authors.objects.get(id=3)
+>>> b4 = Books.objects.get(id=4)
+>>> b1.authors.add(a3)
+>>> b2.authors.add(a3)
+>>> b3.authors.add(a3)
+>>> b4.authors.add(a3)
+>>> a4 = Authors.objects.get(id = 4)
+>>> a4.books.add(Books.objects.filter(id <6))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 784, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 802, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1151, in build_filter
+    arg, value = filter_expr
+TypeError: 'bool' object is not iterable
+>>> a4.books.add(Books.objects.get(id < 6))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 371, in get
+    clone = self.filter(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 784, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 802, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1151, in build_filter
+    arg, value = filter_expr
+TypeError: 'bool' object is not iterable
+>>> a4.books.add(Books.objects.filter(id<6))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 784, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 802, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1151, in build_filter
+    arg, value = filter_expr
+TypeError: 'bool' object is not iterable
+>>> a4.books.add(Books.objects.exclude(id=6))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 934, in add
+    self._add_items(self.source_field_name, self.target_field_name, *objs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 1083, in _add_items
+    '%s__in' % target_field_name: new_ids,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 784, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 802, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1206, in build_filter
+    condition = lookup_class(lhs, value)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 24, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_lookups.py", line 56, in get_prep_lookup
+    self.rhs = [target_field.get_prep_value(v) for v in self.rhs]
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 966, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'QuerySet'
+>>> books = (Books.objects.exclude(id=6))
+>>> books = Books.objects.exclude(id =6)
+>>> a4.books.add(books)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 934, in add
+    self._add_items(self.source_field_name, self.target_field_name, *objs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_descriptors.py", line 1083, in _add_items
+    '%s__in' % target_field_name: new_ids,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 784, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/query.py", line 802, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1250, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1276, in _add_q
+    allow_joins=allow_joins, split_subq=split_subq,
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/sql/query.py", line 1206, in build_filter
+    condition = lookup_class(lhs, value)
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/lookups.py", line 24, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/related_lookups.py", line 56, in get_prep_lookup
+    self.rhs = [target_field.get_prep_value(v) for v in self.rhs]
+  File "/usr/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 966, in get_prep_value
+    return int(value)
+TypeError: int() argument must be a string or a number, not 'QuerySet'
+>>> a4.Books.add(books)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Authors' object has no attribute 'Books'
+>>> a4.books(books.first())
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+TypeError: __call__() takes exactly 1 argument (2 given)
+>>> a4.books.add(Books.objects.get(id=1))
+>>> a4.books.add(Books.objects.get(id=2))
+>>> a4.books.add(Books.objects.get(id=3))
+>>> a4.books.add(Books.objects.get(id=4))
+>>> a4.books.add(Books.objects.get(id=5))
+>>> Books.objects.get(id=4).authors
+<django.db.models.fields.related_descriptors.ManyRelatedManager object at 0x1025d66d0>
+>>> Books.objects.get(id=3).authors.first().first_name
+u'Mike'
+>>> Books.objects.get(id=3).authors.first().delete()
+(4, {u'bookapp.Authors_books': 3, u'bookapp.Authors': 1})
